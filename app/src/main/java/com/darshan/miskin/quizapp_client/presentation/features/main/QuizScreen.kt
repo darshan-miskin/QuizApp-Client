@@ -1,4 +1,4 @@
-package com.darshan.miskin.quizapp_client
+package com.darshan.miskin.quizapp_client.presentation.features.main
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -6,9 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -66,5 +64,5 @@ fun QuizScreen(quizData: QuizData) {
 @Preview
 @Composable
 fun QuizScreenPreview() {
-    QuizScreen(QuizData("a", "d", "Hard", listOf("a", "b", "c"), "a long Question does here?", ""))
+    QuizScreen(QuizData("a", "d", "Hard", listOf("a", "b", "c"), "a long Question goes here?", ""))
 }

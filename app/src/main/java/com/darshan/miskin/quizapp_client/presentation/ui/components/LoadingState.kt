@@ -1,4 +1,4 @@
-package com.darshan.miskin.quizapp_client.ui.components
+package com.darshan.miskin.quizapp_client.presentation.ui.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize

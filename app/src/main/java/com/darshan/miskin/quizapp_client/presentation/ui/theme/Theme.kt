@@ -1,6 +1,5 @@
-package com.darshan.miskin.quizapp_client.ui.theme
+package com.darshan.miskin.quizapp_client.presentation.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme

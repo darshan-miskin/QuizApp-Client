@@ -1,4 +1,4 @@
-package com.darshan.miskin.quizapp_client.ui.theme
+package com.darshan.miskin.quizapp_client.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

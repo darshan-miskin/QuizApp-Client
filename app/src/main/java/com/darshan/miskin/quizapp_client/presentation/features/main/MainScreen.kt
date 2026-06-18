@@ -1,4 +1,4 @@
-package com.darshan.miskin.quizapp_client
+package com.darshan.miskin.quizapp_client.presentation.features.main
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -18,8 +18,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.darshan.miskin.quizapp_client.data.QuizData
-import com.darshan.miskin.quizapp_client.ui.components.LoadingState
-import com.darshan.miskin.quizapp_client.ui.theme.QuizApp_ClientTheme
+import com.darshan.miskin.quizapp_client.presentation.model.DESTINATIONS
+import com.darshan.miskin.quizapp_client.presentation.ui.components.LoadingState
+import com.darshan.miskin.quizapp_client.presentation.ui.theme.QuizApp_ClientTheme
 
 @Composable
 fun MainScreen() {
@@ -56,7 +57,16 @@ fun MainScreen() {
                 if(false)
                     LoadingState()
                 else
-                    QuizScreen(QuizData("a", "d", "Hard", listOf("a","b","c"), "a long Question does here?", ""))
+                    QuizScreen(
+                        QuizData(
+                            "a",
+                            "d",
+                            "Hard",
+                            listOf("a", "b", "c"),
+                            "a long Question goes here?",
+                            ""
+                        )
+                    )
             }
             composable(DESTINATIONS.RESULT_SCREEN.route) { ResultScreen() }
         }

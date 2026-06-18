@@ -1,4 +1,4 @@
-package com.darshan.miskin.quizapp_client
+package com.darshan.miskin.quizapp_client.presentation.features.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.darshan.miskin.quizapp_client.ui.theme.QuizApp_ClientTheme
+import com.darshan.miskin.quizapp_client.presentation.ui.theme.QuizApp_ClientTheme
 
 class MainActivity : ComponentActivity() {
 

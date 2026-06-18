@@ -1,9 +1,8 @@
-package com.darshan.miskin.quizapp_client
+package com.darshan.miskin.quizapp_client.presentation.model
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.BarChart
 import androidx.compose.material.icons.filled.School
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 
 
