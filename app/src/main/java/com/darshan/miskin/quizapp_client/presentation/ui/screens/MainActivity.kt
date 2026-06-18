@@ -1,4 +1,4 @@
-package com.darshan.miskin.quizapp_client.presentation.features.main
+package com.darshan.miskin.quizapp_client.presentation.ui.screens
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

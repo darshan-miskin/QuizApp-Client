@@ -1,4 +1,4 @@
-package com.darshan.miskin.quizapp_client.presentation.features.main
+package com.darshan.miskin.quizapp_client.presentation.ui.screens
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
