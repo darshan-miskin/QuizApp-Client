@@ -11,9 +11,8 @@ enum class DESTINATIONS(
     val route: String,
     val label: String,
     val icon: ImageVector,
-    val description: String,
-    val screen: @Composable () -> Unit
+    val description: String
 ) {
-    QUIZ_SCREEN("quiz_screen", "Quiz", Icons.Default.School, "", { QuizScreen() }),
-    RESULT_SCREEN("result_screen", "Result", Icons.Default.BarChart, "", { ResultScreen() }),
+    QUIZ_SCREEN("quiz_screen", "Quiz", Icons.Default.School, ""),
+    RESULT_SCREEN("result_screen", "Result", Icons.Default.BarChart, ""),
 }

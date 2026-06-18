@@ -13,10 +13,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-
+import com.darshan.miskin.quizapp_client.data.QuizData
+import com.darshan.miskin.quizapp_client.ui.components.LoadingState
+import com.darshan.miskin.quizapp_client.ui.theme.QuizApp_ClientTheme
 
 @Composable
 fun MainScreen() {
@@ -49,11 +52,21 @@ fun MainScreen() {
         }
     ) { innerPadding ->
         NavHost(modifier = Modifier.padding(innerPadding), navController = navController, startDestination = DESTINATIONS.QUIZ_SCREEN.route) {
-            DESTINATIONS.entries.forEach { destination ->
-                composable(destination.route) {
-                    destination.screen.invoke()
-                }
+            composable(DESTINATIONS.QUIZ_SCREEN.route) {
+                if(false)
+                    LoadingState()
+                else
+                    QuizScreen(QuizData("a", "d", "Hard", listOf("a","b","c"), "a long Question does here?", ""))
             }
+            composable(DESTINATIONS.RESULT_SCREEN.route) { ResultScreen() }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun Preview() {
+    QuizApp_ClientTheme {
+        MainScreen()
     }
 }

@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun MainScreenPreview() {
     QuizApp_ClientTheme {
         MainScreen()
     }
