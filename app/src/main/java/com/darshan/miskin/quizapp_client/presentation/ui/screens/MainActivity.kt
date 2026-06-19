@@ -1,7 +1,6 @@
 package com.darshan.miskin.quizapp_client.presentation.ui.screens
 
 import android.content.ComponentName
-import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.content.pm.PackageManager
@@ -15,8 +14,8 @@ import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.darshan.miskin.quizapp_client.IQuizCompleteInterface
-import com.darshan.miskin.quizapp_client.IQuizDataInterface
+import com.darshan.miskin.quizapp_server.IQuizCompleteInterface
+import com.darshan.miskin.quizapp_server.IQuizDataInterface
 import com.darshan.miskin.quizapp_client.presentation.model.QuizPageState
 import com.darshan.miskin.quizapp_client.presentation.ui.theme.QuizApp_ClientTheme
 
@@ -68,7 +67,6 @@ class MainActivity : ComponentActivity() {
             viewModel.setQuizPageState(QuizPageState.Initial)
             Toast.makeText(this@MainActivity, "Quiz Completed!", Toast.LENGTH_LONG).show()
         }
-
     }
 
     val connection = object : ServiceConnection {
@@ -77,7 +75,7 @@ class MainActivity : ComponentActivity() {
             service: IBinder?
         ) {
             iQuizService = IQuizDataInterface.Stub.asInterface(service)
-            iQuizService.registerQuizCallback(iQuizCompleteInterface)
+//            iQuizService.registerQuizCallback(iQuizCompleteInterface)
             iQuizService.nextQuestion?.let {
                 Toast.makeText(this@MainActivity, "Question Fetched!", Toast.LENGTH_SHORT).show()
                 viewModel.setQuizPageState(QuizPageState.Success(it))
@@ -85,7 +83,7 @@ class MainActivity : ComponentActivity() {
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
-            iQuizService.unregisterQuizCallback(iQuizCompleteInterface)
+//            iQuizService.unregisterQuizCallback(iQuizCompleteInterface)
         }
 
     }

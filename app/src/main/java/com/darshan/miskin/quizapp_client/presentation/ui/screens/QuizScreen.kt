@@ -18,7 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.darshan.miskin.quizapp_client.QuizData
+import com.darshan.miskin.quizapp_server.QuizData
 
 @Composable
 fun QuizScreen(quizData: QuizData, getNextQuestion: () -> Unit) {

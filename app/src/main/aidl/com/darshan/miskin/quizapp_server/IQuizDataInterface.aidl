@@ -1,8 +1,8 @@
 // IQuizDataInterface.aidl
-package com.darshan.miskin.quizapp_client;
+package com.darshan.miskin.quizapp_server;
 
-import com.darshan.miskin.quizapp_client.QuizData;
-import com.darshan.miskin.quizapp_client.IQuizCompleteInterface;
+import com.darshan.miskin.quizapp_server.QuizData;
+import com.darshan.miskin.quizapp_server.IQuizCompleteInterface;
 
 interface IQuizDataInterface {
     QuizData getNextQuestion();

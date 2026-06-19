@@ -1,6 +1,6 @@
 package com.darshan.miskin.quizapp_client.presentation.model
 
-import com.darshan.miskin.quizapp_client.QuizData
+import com.darshan.miskin.quizapp_server.QuizData
 
 sealed interface QuizPageState {
     object Initial : QuizPageState

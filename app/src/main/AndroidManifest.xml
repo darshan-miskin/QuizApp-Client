@@ -6,7 +6,7 @@
     <uses-permission android:name="com.darshan.miskin.QUIZ_SERVER_PERMISSION"/>
 
     <queries>
-        <package android:name="com.darshan.miskin.quizapp_server" />
+        <package android:name="com.darshan.miskin.quizapp_client" />
     </queries>
 
 
