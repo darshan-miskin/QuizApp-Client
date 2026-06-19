@@ -41,12 +41,22 @@ class MainActivity : ComponentActivity() {
                         }
                     }
                 ) {
-                    viewModel.setQuizPageState(QuizPageState.Loading)
-                    val intent = Intent("com.darshan.miskin.ACTION_START_QUIZ").apply {
-                        setPackage("com.darshan.miskin.quizapp_server")
-                        action = "com.darshan.miskin.ACTION_START_QUIZ"
+
+                    try {
+                        val isServerInstalled = this@MainActivity.packageManager.getPackageInfo("com.darshan.miskin.quizapp_server", 0)
+                        if (isServerInstalled != null){
+                            viewModel.setQuizPageState(QuizPageState.Loading)
+                            val intent = Intent("com.darshan.miskin.ACTION_START_QUIZ").apply {
+                                setPackage("com.darshan.miskin.quizapp_server")
+                                action = "com.darshan.miskin.ACTION_START_QUIZ"
+                            }
+                            bindService(intent, connection, BIND_AUTO_CREATE)
+                        }
                     }
-                    bindService(intent, connection, BIND_AUTO_CREATE)
+                    catch (e: PackageManager.NameNotFoundException){
+                        Toast.makeText(this@MainActivity, "Quiz Server App Not Installed!", Toast.LENGTH_SHORT).show()
+                        return@MainScreen
+                    }
                 }
             }
         }
