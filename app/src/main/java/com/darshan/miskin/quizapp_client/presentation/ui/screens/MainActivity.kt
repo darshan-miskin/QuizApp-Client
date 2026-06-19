@@ -6,6 +6,7 @@ import android.content.ServiceConnection
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.IBinder
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -64,15 +65,14 @@ class MainActivity : ComponentActivity() {
     lateinit var iQuizService: IQuizDataInterface
     val iQuizCallBackInterface = object : IQuizCallBackInterface.Stub() {
         override fun onQuizLoaded() {
+            Log.d("asdf", "onQuizLoaded Called! ${iQuizService.nextQuestion}")
             iQuizService.nextQuestion?.let {
-                Toast.makeText(this@MainActivity, "Question Fetched!", Toast.LENGTH_SHORT).show()
                 viewModel.setQuizPageState(QuizPageState.Success(it))
             }
         }
 
         override fun onQuizComplete(isComplete: Boolean) {
             viewModel.setQuizPageState(QuizPageState.Initial)
-            Toast.makeText(this@MainActivity, "Quiz Completed!", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -82,12 +82,11 @@ class MainActivity : ComponentActivity() {
             service: IBinder?
         ) {
             iQuizService = IQuizDataInterface.Stub.asInterface(service)
-            Toast.makeText(this@MainActivity, "Connected!!", Toast.LENGTH_SHORT).show()
             iQuizService.registerQuizCallback(iQuizCallBackInterface)
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
-            iQuizService.unregisterQuizCallback(iQuizCallBackInterface)
+//            iQuizService.unregisterQuizCallback(iQuizCallBackInterface)
         }
 
     }
