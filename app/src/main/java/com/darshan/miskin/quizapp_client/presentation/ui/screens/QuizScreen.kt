@@ -51,9 +51,7 @@ fun QuizScreen(quizData: QuizData, shuffledAnswers: List<String>, getNextQuestio
         }
         shuffledAnswers.forEach {
             Button(modifier = Modifier.fillMaxWidth(), onClick = {
-                if (it == HtmlCompat.fromHtml(quizData.correct_answer, HtmlCompat.FROM_HTML_MODE_COMPACT).toString()) {
-                    getNextQuestion()
-                }
+                getNextQuestion()
             }) { Text(HtmlCompat.fromHtml(it, HtmlCompat.FROM_HTML_MODE_COMPACT).toString()) }
         }
     }
