@@ -5,6 +5,11 @@
     <permission android:name="com.darshan.miskin.QUIZ_SERVER_PERMISSION"/>
     <uses-permission android:name="com.darshan.miskin.QUIZ_SERVER_PERMISSION"/>
 
+    <queries>
+        <package android:name="com.darshan.miskin.quizapp_server" />
+    </queries>
+
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
