@@ -6,13 +6,13 @@ import android.content.ServiceConnection
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.IBinder
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.darshan.miskin.quizapp_server.IQuizDataInterface
@@ -29,35 +29,47 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             QuizApp_ClientTheme {
-                val quizPageState = viewModel.quizPageState.collectAsStateWithLifecycle()
+                val quizPageState by viewModel.quizPageState.collectAsStateWithLifecycle()
                 MainScreen(
-                    quizPageState = quizPageState.value,
+                    quizPageState = quizPageState,
                     getNextQuestion = {
-                        val quizData = iQuizService.nextQuestion
-                        if (quizData != null) {
-                            viewModel.setQuizPageState(QuizPageState.Success(quizData))
-                        } else {
-                            viewModel.setQuizPageState(QuizPageState.Error)
-                        }
+                        nextQuestion()
                     }
                 ) {
-
-                    try {
-                        val isServerInstalled = this@MainActivity.packageManager.getPackageInfo("com.darshan.miskin.quizapp_server", 0)
-                        if (isServerInstalled != null){
-                            viewModel.setQuizPageState(QuizPageState.Loading)
-                            val intent = Intent("com.darshan.miskin.ACTION_START_QUIZ").apply {
-                                setPackage("com.darshan.miskin.quizapp_server")
-                                action = "com.darshan.miskin.ACTION_START_QUIZ"
-                            }
-                            bindService(intent, connection, BIND_AUTO_CREATE)
-                        }
-                    }
-                    catch (e: PackageManager.NameNotFoundException){
-                        Toast.makeText(this@MainActivity, "Quiz Server App Not Installed!", Toast.LENGTH_SHORT).show()
-                        return@MainScreen
-                    }
+                    startQuiz()
                 }
+            }
+        }
+    }
+    fun nextQuestion(){
+        iQuizService.nextQuestion?.let {
+            viewModel.setQuizPageState(QuizPageState.Success(it))
+        }
+    }
+    fun startQuiz(){
+        if(::iQuizService.isInitialized){
+            //TODO: Reload quiz
+        }
+        else {
+            try {
+                val isServerInstalled = this@MainActivity.packageManager.getPackageInfo(
+                    "com.darshan.miskin.quizapp_server",
+                    0
+                )
+                if (isServerInstalled != null) {
+                    viewModel.setQuizPageState(QuizPageState.Loading)
+                    val intent = Intent("com.darshan.miskin.ACTION_START_QUIZ").apply {
+                        setPackage("com.darshan.miskin.quizapp_server")
+                        action = "com.darshan.miskin.ACTION_START_QUIZ"
+                    }
+                    bindService(intent, connection, BIND_AUTO_CREATE)
+                }
+            } catch (e: PackageManager.NameNotFoundException) {
+                Toast.makeText(
+                    this@MainActivity,
+                    "Quiz Server App Not Installed!",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
@@ -65,10 +77,7 @@ class MainActivity : ComponentActivity() {
     lateinit var iQuizService: IQuizDataInterface
     val iQuizCallBackInterface = object : IQuizCallBackInterface.Stub() {
         override fun onQuizLoaded() {
-            Log.d("asdf", "onQuizLoaded Called! ${iQuizService.nextQuestion}")
-            iQuizService.nextQuestion?.let {
-                viewModel.setQuizPageState(QuizPageState.Success(it))
-            }
+            nextQuestion()
         }
 
         override fun onQuizComplete(isComplete: Boolean) {
@@ -87,6 +96,7 @@ class MainActivity : ComponentActivity() {
 
         override fun onServiceDisconnected(name: ComponentName?) {
 //            iQuizService.unregisterQuizCallback(iQuizCallBackInterface)
+            unbindService(this)
         }
 
     }

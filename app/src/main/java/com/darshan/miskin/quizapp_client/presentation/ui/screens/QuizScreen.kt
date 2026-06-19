@@ -1,6 +1,5 @@
 package com.darshan.miskin.quizapp_client.presentation.ui.screens
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,16 +11,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.text.HtmlCompat
 import com.darshan.miskin.quizapp_server.QuizData
 
 @Composable
-fun QuizScreen(quizData: QuizData, getNextQuestion: () -> Unit) {
+fun QuizScreen(quizData: QuizData, shuffledAnswers: List<String>, getNextQuestion: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -29,7 +27,6 @@ fun QuizScreen(quizData: QuizData, getNextQuestion: () -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceAround
     ) {
-        val context = LocalContext.current
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -47,25 +44,17 @@ fun QuizScreen(quizData: QuizData, getNextQuestion: () -> Unit) {
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = quizData.question,
+                    text = HtmlCompat.fromHtml(quizData.question, HtmlCompat.FROM_HTML_MODE_COMPACT).toString(),
                     style = MaterialTheme.typography.titleMedium
                 )
             }
         }
-        val answers = quizData.incorrect_answers.plus(quizData.correct_answer)
-        LaunchedEffect(answers) {
-            answers.shuffled()
-        }
-        answers.forEach {
+        shuffledAnswers.forEach {
             Button(modifier = Modifier.fillMaxWidth(), onClick = {
-                if (it == quizData.correct_answer) {
+                if (it == HtmlCompat.fromHtml(quizData.correct_answer, HtmlCompat.FROM_HTML_MODE_COMPACT).toString()) {
                     getNextQuestion()
-                    Toast.makeText(context, "Correct Answer!", Toast.LENGTH_SHORT).show()
                 }
-                else {
-                    Toast.makeText(context, "Wrong Answer!", Toast.LENGTH_SHORT).show()
-                }
-            }) { Text(it) }
+            }) { Text(HtmlCompat.fromHtml(it, HtmlCompat.FROM_HTML_MODE_COMPACT).toString()) }
         }
     }
 }
@@ -74,6 +63,6 @@ fun QuizScreen(quizData: QuizData, getNextQuestion: () -> Unit) {
 @Composable
 fun QuizScreenPreview() {
     Surface(modifier = Modifier.fillMaxSize()) {
-        QuizScreen(QuizData()){}
+        QuizScreen(QuizData(), arrayListOf()){}
     }
 }

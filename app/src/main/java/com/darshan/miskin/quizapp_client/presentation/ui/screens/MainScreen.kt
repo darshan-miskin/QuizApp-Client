@@ -8,7 +8,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -62,7 +61,7 @@ fun MainScreen(quizPageState: QuizPageState, getNextQuestion: () -> Unit, startQ
                     QuizPageState.Error -> Text("Something Went Wrong!")
                     QuizPageState.Initial -> InitialState(startQuiz)
                     QuizPageState.Loading -> LoadingState()
-                    is QuizPageState.Success -> QuizScreen(quizPageState.quizData, getNextQuestion)
+                    is QuizPageState.Success -> QuizScreen(quizPageState.quizData, quizPageState.shuffledAnswers, getNextQuestion)
                 }
             }
             composable(DESTINATIONS.RESULT_SCREEN.route) { ResultScreen() }
@@ -72,13 +71,11 @@ fun MainScreen(quizPageState: QuizPageState, getNextQuestion: () -> Unit, startQ
 
 @Composable
 fun InitialState(startQuiz: () -> Unit){
-    Surface(modifier = Modifier.fillMaxSize()) {
-        Box(modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center){
-            Button(onClick = startQuiz) {
-                Text(text = "Start Quiz")
+    Box(modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center){
+        Button(onClick = startQuiz) {
+            Text(text = "Start Quiz")
 
-            }
         }
     }
 }
