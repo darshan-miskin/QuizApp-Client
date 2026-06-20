@@ -6,6 +6,7 @@ import android.content.ServiceConnection
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.IBinder
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -47,10 +48,7 @@ class MainActivity : ComponentActivity() {
         }
     }
     fun startQuiz(){
-        if(::iQuizService.isInitialized){
-            //TODO: Reload quiz
-        }
-        else {
+        if(!::iQuizService.isInitialized){
             try {
                 val isServerInstalled = this@MainActivity.packageManager.getPackageInfo(
                     "com.darshan.miskin.quizapp_server",
@@ -71,6 +69,9 @@ class MainActivity : ComponentActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
+        }else{
+            viewModel.setQuizPageState(QuizPageState.Loading)
+            iQuizService.refresh()
         }
     }
 
@@ -80,9 +81,14 @@ class MainActivity : ComponentActivity() {
             nextQuestion()
         }
 
-        override fun onQuizComplete(isComplete: Boolean) {
+        override fun onQuizComplete() {
             viewModel.setQuizPageState(QuizPageState.Initial)
         }
+
+        override fun onError(errorMessage: String?) {
+            viewModel.setQuizPageState(QuizPageState.Error)
+        }
+
     }
 
     val connection = object : ServiceConnection {
@@ -92,10 +98,10 @@ class MainActivity : ComponentActivity() {
         ) {
             iQuizService = IQuizDataInterface.Stub.asInterface(service)
             iQuizService.registerQuizCallback(iQuizCallBackInterface)
+            iQuizService.refresh()
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
-//            iQuizService.unregisterQuizCallback(iQuizCallBackInterface)
             unbindService(this)
         }
 
@@ -109,14 +115,7 @@ fun MainScreenPreview() {
         MainScreen(
             QuizPageState.Initial
 //            QuizPageState.Success(
-//                QuizData(
-//                    "a",
-//                    "d",
-//                    "Hard",
-//                    listOf("a", "b", "c"),
-//                    "a long Question goes here?",
-//                    ""
-//                )
+//                QuizData("a","d","Hard",listOf("a", "b", "c"),"a long Question goes here?","")
 //            )
             , {}
         ) {}

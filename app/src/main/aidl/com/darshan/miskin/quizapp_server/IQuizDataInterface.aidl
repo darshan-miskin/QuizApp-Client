@@ -6,7 +6,8 @@ import com.darshan.miskin.quizapp_server.IQuizCallBackInterface;
 
 interface IQuizDataInterface {
     QuizData getNextQuestion();
+    oneway void refresh();
 
-    void registerQuizCallback(IQuizCallBackInterface iQuizCallBackInterface);
-    void unregisterQuizCallback(IQuizCallBackInterface iQuizCallBackInterface);
+    oneway void registerQuizCallback(IQuizCallBackInterface iQuizCallBackInterface);
+    oneway void unregisterQuizCallback(IQuizCallBackInterface iQuizCallBackInterface);
 }
