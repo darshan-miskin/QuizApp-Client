@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.darshan.miskin.quizapp_client.contract.QuizContract
 import com.darshan.miskin.quizapp_server.IQuizDataInterface
 import com.darshan.miskin.quizapp_client.presentation.model.QuizPageState
 import com.darshan.miskin.quizapp_client.presentation.ui.theme.QuizApp_ClientTheme
@@ -51,14 +52,13 @@ class MainActivity : ComponentActivity() {
         if(!::iQuizService.isInitialized){
             try {
                 val isServerInstalled = this@MainActivity.packageManager.getPackageInfo(
-                    "com.darshan.miskin.quizapp_server",
+                    QuizContract.SERVER_PACKAGE_NAME,
                     0
                 )
                 if (isServerInstalled != null) {
                     viewModel.setQuizPageState(QuizPageState.Loading)
-                    val intent = Intent("com.darshan.miskin.ACTION_START_QUIZ").apply {
-                        setPackage("com.darshan.miskin.quizapp_server")
-                        action = "com.darshan.miskin.ACTION_START_QUIZ"
+                    val intent = Intent(QuizContract.ACTION_START_QUIZ).apply {
+                        setPackage(QuizContract.SERVER_PACKAGE_NAME)
                     }
                     bindService(intent, connection, BIND_AUTO_CREATE)
                 }
