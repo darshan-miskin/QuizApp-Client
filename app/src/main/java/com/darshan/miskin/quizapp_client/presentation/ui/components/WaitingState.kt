@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.darshan.miskin.quizapp_client.R
 
 @Composable
-fun WaitingState(startQuiz: () -> Unit) {
+fun WaitingState(reconnect: () -> Unit) {
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -27,8 +27,8 @@ fun WaitingState(startQuiz: () -> Unit) {
             textAlign = TextAlign.Center
         )
 //        Spacer(modifier = Modifier.padding(16.dp))
-//        Button(onClick = startQuiz) {
-//            Text(text = stringResource(R.string.start_quiz))
+//        Button(onClick = reconnect) {
+//            Text(text = stringResource(R.string.reconnect))
 //        }
     }
 }

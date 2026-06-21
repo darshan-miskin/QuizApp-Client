@@ -55,6 +55,7 @@ class MainActivity : ComponentActivity() {
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
+            /*viewModel.setQuizPageState(QuizPageState.Waiting) */ //TODO: Try restoring state by reconnecting but for this, server requires a database of client sessions.
             handleException()
         }
     }

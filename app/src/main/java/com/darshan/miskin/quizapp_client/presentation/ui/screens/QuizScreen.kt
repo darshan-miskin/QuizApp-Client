@@ -24,13 +24,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.text.HtmlCompat
+import com.darshan.miskin.quizapp_client.presentation.model.QuizResult
 import com.darshan.miskin.quizapp_client.presentation.ui.theme.PurpleGrey80
 import com.darshan.miskin.quizapp_server.QuizData
 import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
-fun QuizScreen(quizData: QuizData, shuffledAnswers: List<String>, getNextQuestion: () -> Unit) {
+fun QuizScreen(quizData: QuizData, shuffledAnswers: List<String>, quizResult: QuizResult, getNextQuestion: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -67,6 +68,7 @@ fun QuizScreen(quizData: QuizData, shuffledAnswers: List<String>, getNextQuestio
 
         LaunchedEffect(selectedAnswer) {
             if (selectedAnswer!=null){
+                quizResult.totalQuestions++
                 delay(500.milliseconds)
                 selectedAnswer = null
                 getNextQuestion()
@@ -77,7 +79,15 @@ fun QuizScreen(quizData: QuizData, shuffledAnswers: List<String>, getNextQuestio
             val isCorrect = it == quizData.correct_answer
             val isSelected = it == selectedAnswer
 
-            val containerColor = if (isSelected) {if (isCorrect) Color.Green else Color.Red } else PurpleGrey80
+            val containerColor = if (isSelected) {
+                if (isCorrect) {
+                    quizResult.correctAnswers++
+                    Color.Green
+                } else {
+                    quizResult.incorrectAnswers++
+                    Color.Red
+                }
+            } else PurpleGrey80
             val contentColor = if (isSelected) Color.White else Color.DarkGray
 
             Button(
@@ -104,6 +114,6 @@ fun QuizScreen(quizData: QuizData, shuffledAnswers: List<String>, getNextQuestio
 @Composable
 fun QuizScreenPreview() {
     Surface(modifier = Modifier.fillMaxSize()) {
-        QuizScreen(QuizData(), arrayListOf()) {}
+        QuizScreen(QuizData(), arrayListOf(), QuizResult(0,0,0)) {}
     }
 }

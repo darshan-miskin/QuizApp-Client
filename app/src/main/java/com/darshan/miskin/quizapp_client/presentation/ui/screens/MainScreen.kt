@@ -15,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -29,6 +30,7 @@ import androidx.navigation.compose.rememberNavController
 import com.darshan.miskin.quizapp_client.R
 import com.darshan.miskin.quizapp_client.presentation.model.DESTINATIONS
 import com.darshan.miskin.quizapp_client.presentation.model.QuizPageState
+import com.darshan.miskin.quizapp_client.presentation.model.QuizResult
 import com.darshan.miskin.quizapp_client.presentation.ui.components.ErrorState
 import com.darshan.miskin.quizapp_client.presentation.ui.components.InitialState
 import com.darshan.miskin.quizapp_client.presentation.ui.components.LoadingState
@@ -39,6 +41,7 @@ import com.darshan.miskin.quizapp_client.presentation.ui.theme.QuizApp_ClientThe
 fun MainScreen(quizPageState: QuizPageState, getNextQuestion: () -> Unit, startQuiz: () -> Unit) {
     val navController = rememberNavController()
     var selectedDestination by rememberSaveable { mutableStateOf(DESTINATIONS.QUIZ_SCREEN.route) }
+    val quizResult = remember { QuizResult(0, 0, 0) }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -79,11 +82,12 @@ fun MainScreen(quizPageState: QuizPageState, getNextQuestion: () -> Unit, startQ
                     is QuizPageState.Success -> QuizScreen(
                         quizPageState.quizData,
                         quizPageState.shuffledAnswers,
+                        quizResult,
                         getNextQuestion
                     )
                 }
             }
-            composable(DESTINATIONS.RESULT_SCREEN.route) { ResultScreen() }
+            composable(DESTINATIONS.RESULT_SCREEN.route) { ResultScreen(quizResult) }
         }
     }
 }
@@ -92,6 +96,6 @@ fun MainScreen(quizPageState: QuizPageState, getNextQuestion: () -> Unit, startQ
 @Composable
 fun Preview() {
     QuizApp_ClientTheme {
-        MainScreen(QuizPageState.Waiting, {}) {}
+        MainScreen(QuizPageState.Initial, {}) {}
     }
 }

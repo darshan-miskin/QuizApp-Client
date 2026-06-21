@@ -4,4 +4,8 @@
     <string name="start_quiz">Start Quiz</string>
     <string name="server_unstable_please_wait">Server unstable, please wait</string>
     <string name="quiz_server_app_not_installed">Quiz Server App Not Installed!</string>
+    <string name="total_questions_n">Total Questions Answered: %1$s</string>
+    <string name="correct_answers_n">Correct Answers: %1$s</string>
+    <string name="incorrect_answers_n">Incorrect Answers: %1$s</string>
+    <string name="reconnect">Reconnect</string>
 </resources>
