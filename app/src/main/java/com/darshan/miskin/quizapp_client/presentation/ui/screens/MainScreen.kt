@@ -1,6 +1,9 @@
 package com.darshan.miskin.quizapp_client.presentation.ui.screens
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -16,13 +19,20 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.darshan.miskin.quizapp_client.R
 import com.darshan.miskin.quizapp_client.presentation.model.DESTINATIONS
 import com.darshan.miskin.quizapp_client.presentation.model.QuizPageState
+import com.darshan.miskin.quizapp_client.presentation.ui.components.ErrorState
+import com.darshan.miskin.quizapp_client.presentation.ui.components.InitialState
 import com.darshan.miskin.quizapp_client.presentation.ui.components.LoadingState
+import com.darshan.miskin.quizapp_client.presentation.ui.components.WaitingState
 import com.darshan.miskin.quizapp_client.presentation.ui.theme.QuizApp_ClientTheme
 
 @Composable
@@ -55,27 +65,25 @@ fun MainScreen(quizPageState: QuizPageState, getNextQuestion: () -> Unit, startQ
             }
         }
     ) { innerPadding ->
-        NavHost(modifier = Modifier.padding(innerPadding), navController = navController, startDestination = DESTINATIONS.QUIZ_SCREEN.route) {
+        NavHost(
+            modifier = Modifier.padding(innerPadding),
+            navController = navController,
+            startDestination = DESTINATIONS.QUIZ_SCREEN.route
+        ) {
             composable(DESTINATIONS.QUIZ_SCREEN.route) {
-                when(quizPageState){
-                    QuizPageState.Error -> Text("Something Went Wrong!")
+                when (quizPageState) {
+                    QuizPageState.Waiting -> WaitingState(startQuiz)
+                    QuizPageState.Error -> ErrorState(startQuiz)
                     QuizPageState.Initial -> InitialState(startQuiz)
                     QuizPageState.Loading -> LoadingState()
-                    is QuizPageState.Success -> QuizScreen(quizPageState.quizData, quizPageState.shuffledAnswers, getNextQuestion)
+                    is QuizPageState.Success -> QuizScreen(
+                        quizPageState.quizData,
+                        quizPageState.shuffledAnswers,
+                        getNextQuestion
+                    )
                 }
             }
             composable(DESTINATIONS.RESULT_SCREEN.route) { ResultScreen() }
-        }
-    }
-}
-
-@Composable
-fun InitialState(startQuiz: () -> Unit){
-    Box(modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center){
-        Button(onClick = startQuiz) {
-            Text(text = "Start Quiz")
-
         }
     }
 }
@@ -84,6 +92,6 @@ fun InitialState(startQuiz: () -> Unit){
 @Composable
 fun Preview() {
     QuizApp_ClientTheme {
-        MainScreen(QuizPageState.Initial,{}){}
+        MainScreen(QuizPageState.Waiting, {}) {}
     }
 }

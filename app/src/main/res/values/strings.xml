@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">QuizApp_Client</string>
+    <string name="oops_something_went_wrong">Oops! Something Went Wrong!\nTry Again?</string>
+    <string name="start_quiz">Start Quiz</string>
+    <string name="server_unstable_please_wait">Server unstable, please wait</string>
+    <string name="quiz_server_app_not_installed">Quiz Server App Not Installed!</string>
 </resources>
