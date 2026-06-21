@@ -71,7 +71,7 @@ class MainActivity : ComponentActivity() {
             }
         }else{
             viewModel.setQuizPageState(QuizPageState.Loading)
-            iQuizService.refresh()
+            iQuizService.startQuiz()
         }
     }
 
@@ -98,7 +98,7 @@ class MainActivity : ComponentActivity() {
         ) {
             iQuizService = IQuizDataInterface.Stub.asInterface(service)
             iQuizService.registerQuizCallback(iQuizCallBackInterface)
-            iQuizService.refresh()
+            iQuizService.startQuiz()
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
