@@ -1,5 +1,9 @@
 package com.darshan.miskin.quizapp_client.presentation.ui.screens
 
+import android.os.Handler
+import android.os.Looper
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -7,16 +11,28 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collection.mutableVectorOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.text.HtmlCompat
 import com.darshan.miskin.quizapp_server.QuizData
+import kotlinx.coroutines.delay
+import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 fun QuizScreen(quizData: QuizData, shuffledAnswers: List<String>, getNextQuestion: () -> Unit) {
@@ -44,15 +60,41 @@ fun QuizScreen(quizData: QuizData, shuffledAnswers: List<String>, getNextQuestio
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = HtmlCompat.fromHtml(quizData.question, HtmlCompat.FROM_HTML_MODE_COMPACT).toString(),
-                    style = MaterialTheme.typography.titleMedium
+                    text = HtmlCompat.fromHtml(quizData.question, HtmlCompat.FROM_HTML_MODE_COMPACT)
+                        .toString(),
+                    style = MaterialTheme.typography.titleMedium,
+                    textAlign = TextAlign.Center
                 )
             }
         }
-        shuffledAnswers.forEach {
-            Button(modifier = Modifier.fillMaxWidth(), onClick = {
+
+        var selectedAnswer by remember { mutableStateOf<String?>(null) }
+
+        LaunchedEffect(selectedAnswer) {
+            if (selectedAnswer!=null){
+                delay(500.milliseconds)
+                selectedAnswer = null
                 getNextQuestion()
-            }) { Text(HtmlCompat.fromHtml(it, HtmlCompat.FROM_HTML_MODE_COMPACT).toString()) }
+            }
+        }
+
+        shuffledAnswers.forEach {
+            val isCorrect = it == quizData.correct_answer
+            val isSelected = it == selectedAnswer
+
+            Button(
+                modifier = Modifier.fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(
+                    contentColor = if (isSelected) Color.White else Color.Unspecified,
+                    containerColor = if (isSelected) {if (isCorrect) Color.Green else Color.Red } else Color.Unspecified
+                ),
+                onClick = {
+                    selectedAnswer = it
+                }) {
+                Text(
+                    text = HtmlCompat.fromHtml(it, HtmlCompat.FROM_HTML_MODE_COMPACT).toString()
+                )
+            }
         }
     }
 }
@@ -61,6 +103,6 @@ fun QuizScreen(quizData: QuizData, shuffledAnswers: List<String>, getNextQuestio
 @Composable
 fun QuizScreenPreview() {
     Surface(modifier = Modifier.fillMaxSize()) {
-        QuizScreen(QuizData(), arrayListOf()){}
+        QuizScreen(QuizData(), arrayListOf()) {}
     }
 }
