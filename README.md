@@ -1,5 +1,7 @@
 # QuizApp Client
 
+![Architecture Diagram](https://raw.githubusercontent.com/darshan-miskin/storage/refs/heads/master/Quiz%20App%20Architecture.png)
+
 QuizApp Client is a modern Android application built using **Jetpack Compose**. It serves as a frontend interface for a quiz system, where the quiz data and logic are managed by a separate **QuizApp Server** application. The two apps communicate seamlessly using **AIDL (Android Interface Definition Language)** for Inter-Process Communication (IPC).
 
 ## 🚀 Key Features
