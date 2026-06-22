@@ -55,7 +55,7 @@ class MainActivity : ComponentActivity() {
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
-            /*viewModel.setQuizPageState(QuizPageState.Waiting) */ //TODO: Try restoring state by reconnecting but for this, server requires a database of client sessions.
+            /*viewModel.setQuizPageState(QuizPageState.Waiting) */ //TODO: Restore client state from server db.
             handleException()
         }
     }
@@ -80,15 +80,14 @@ class MainActivity : ComponentActivity() {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         if (iQuizService != null) {
             try {
                 iQuizService?.unregisterQuizCallback(iQuizCallBackInterface)
-            } catch (e: RemoteException) {
-            }
+            } catch (e: RemoteException) { }
             unbindService(connection)
             iQuizService = null
         }
+        super.onDestroy()
     }
 
     fun nextQuestion() {
