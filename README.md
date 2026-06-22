@@ -35,6 +35,8 @@ QuizApp Client is a modern Android application built using **Jetpack Compose**. 
 2.  **Bind Service**: If installed, it binds to the server's service using the intent action `com.darshan.miskin.ACTION_START_QUIZ`.
 3.  **Register Callbacks**: Once connected, it registers a callback interface (`IQuizCallBackInterface`) to receive notifications like `onQuizLoaded` or `onQuizComplete`.
 4.  **Quiz Flow**:
+5.  -   User clicks on the 'Start Quiz' Button.
+    -   Server is notified to Fetch Quiz Data from remote Api.
     -   The server pushes the first question.
     -   The user selects an answer, and the client requests the `nextQuestion()` from the server.
     -   Results are tracked locally in the client as the quiz progresses.
