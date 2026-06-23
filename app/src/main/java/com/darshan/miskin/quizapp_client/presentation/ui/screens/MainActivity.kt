@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.IBinder
 import android.os.RemoteException
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -36,6 +37,7 @@ class MainActivity : ComponentActivity() {
         }
 
         override fun onError(errorMessage: String?) {
+            Log.e("MainActivity", "onError: $errorMessage")
             viewModel.setQuizPageState(QuizPageState.Error)
         }
     }
