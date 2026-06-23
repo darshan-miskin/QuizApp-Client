@@ -1,3 +1,5 @@
+![Architecture Diagram](https://raw.githubusercontent.com/darshan-miskin/storage/refs/heads/master/Quiz%20App%20Architecture.png)
+
 # QuizApp Client
 
 QuizApp Client is a modern Android application built using **Jetpack Compose**. It serves as a frontend interface for a quiz system, where the quiz data and logic are managed by a separate **QuizApp Server** application. The two apps communicate seamlessly using **AIDL (Android Interface Definition Language)** for Inter-Process Communication (IPC).
@@ -35,6 +37,8 @@ QuizApp Client is a modern Android application built using **Jetpack Compose**. 
 2.  **Bind Service**: If installed, it binds to the server's service using the intent action `com.darshan.miskin.ACTION_START_QUIZ`.
 3.  **Register Callbacks**: Once connected, it registers a callback interface (`IQuizCallBackInterface`) to receive notifications like `onQuizLoaded` or `onQuizComplete`.
 4.  **Quiz Flow**:
+    -   User clicks on the 'Start Quiz' Button.
+    -   Server is notified to Fetch Quiz Data from remote Api.
     -   The server pushes the first question.
     -   The user selects an answer, and the client requests the `nextQuestion()` from the server.
     -   Results are tracked locally in the client as the quiz progresses.
