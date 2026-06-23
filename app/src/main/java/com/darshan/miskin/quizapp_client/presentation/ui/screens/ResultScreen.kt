@@ -48,6 +48,6 @@ fun ResultScreen(quizResult: QuizResult) {
 @Composable
 fun ResultScreenPreview() {
     Surface(modifier = Modifier.fillMaxSize()) {
-        ResultScreen(QuizResult(10, 5, 5))
+        ResultScreen(QuizResult( 5, 5))
     }
 }

@@ -68,7 +68,6 @@ fun QuizScreen(quizData: QuizData, shuffledAnswers: List<String>, quizResult: Qu
 
         LaunchedEffect(selectedAnswer) {
             if (selectedAnswer!=null){
-                quizResult.totalQuestions++
                 delay(500.milliseconds)
                 selectedAnswer = null
                 getNextQuestion()
@@ -114,6 +113,6 @@ fun QuizScreen(quizData: QuizData, shuffledAnswers: List<String>, quizResult: Qu
 @Composable
 fun QuizScreenPreview() {
     Surface(modifier = Modifier.fillMaxSize()) {
-        QuizScreen(QuizData(), arrayListOf(), QuizResult(0,0,0)) {}
+        QuizScreen(QuizData(), arrayListOf(), QuizResult(0,0)) {}
     }
 }
